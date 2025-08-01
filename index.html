@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Noble Corán - Lectura en línea en español</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Lee el Noble Corán en línea en español. Interfaz de lectura intuitiva con navegación página por página, zoom y búsqueda. Traducción completa del Corán en español.">
+    <meta name="keywords" content="corán, quran español, lectura corán en línea, corán pdf, islam, noble corán, traducción española, corán gratis">
+    <meta name="author" content="Corán ES Reader">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tu-dominio.com/">
+    <meta property="og:title" content="El Noble Corán - Lectura en línea en español">
+    <meta property="og:description" content="Lee el Noble Corán en línea en español con una interfaz intuitiva y responsive.">
+    <meta property="og:image" content="https://tu-dominio.com/images/coran-preview.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://tu-dominio.com/">
+    <meta property="twitter:title" content="El Noble Corán - Lectura en línea en español">
+    <meta property="twitter:description" content="Lee el Noble Corán en línea en español con una interfaz intuitiva y responsive.">
+    <meta property="twitter:image" content="https://tu-dominio.com/images/coran-preview.jpg">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <style>
+        /* Reset y base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c5530;
+            --secondary-color: #d4af37;
+            --accent-color: #8b4513;
+            --text-color: #333;
+            --text-light: #666;
+            --bg-color: #fefefe;
+            --bg-secondary: #f8f9fa;
+            --border-color: #e0e0e0;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-hover: 0 4px 20px rgba(0,0,0,0.15);
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .logo .arabic {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.2rem;
+            direction: rtl;
+        }
+
+        .logo .spanish {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--bg-secondary), white);
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero-content h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            margin: 0.5rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Reader Section */
+        .reader-section {
+            padding: 2rem 0;
+            min-height: 80vh;
+        }
+
+        .reader-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .control-btn {
+            background: white;
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .control-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .pdf-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 1rem;
+            text-align: center;
+            min-height: 600px;
+            position: relative;
+        }
+
+        .pdf-viewer {
+            width: 100%;
+            height: 80vh;
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .loading-message {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            color: var(--text-light);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .fallback-content {
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-color);
+        }
+
+        .fallback-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .fallback-content a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .fallback-content a:hover {
+            text-decoration: underline;
+        }
+
+        .method-info {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 4rem 0;
+            background: var(--bg-secondary);
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        .footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content h2 {
+                font-size: 2rem;
+            }
+            
+            .reader-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .pdf-viewer {
+                height: 60vh;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .hero-content h2 {
+                font-size: 1.8rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <span class="arabic">القرآن الكريم</span>
+                <span class="spanish">El Noble Corán</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Hero Section -->
+        <section id="inicio" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>Lee el Noble Corán en español</h2>
+                    <p>Descubre la belleza y sabiduría del Corán con nuestra interfaz de lectura intuitiva y responsive.</p>
+                    <button id="startReading" class="cta-button">📖 Comenzar la lectura</button>
+                    <button id="openPDFDirect" class="cta-button">🔗 Abrir PDF directamente</button>
+                    <button id="downloadPDF" class="cta-button">⬇️ Descargar el PDF</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PDF Reader Section -->
+        <section id="lectura" class="reader-section">
+            <div class="container">
+                <div id="methodInfo" class="method-info">
+                    Inicializando el lector...
+                </div>
+
+                <div class="reader-controls">
+                    <button class="control-btn" onclick="openPDFDirect()">🔗 Abrir en nueva pestaña</button>
+                    <button class="control-btn" onclick="downloadPDF()">⬇️ Descargar el PDF</button>
+                    <button class="control-btn" onclick="toggleFullscreen()">⛶ Pantalla completa</button>
+                </div>
+
+                <div class="pdf-container" id="pdfContainer">
+                    <div id="loadingMessage" class="loading-message">
+                        <div class="spinner"></div>
+                        <p>Cargando el Corán...</p>
+                    </div>
+
+                    <!-- Zona de visualización PDF -->
+                    <div id="pdfDisplay" style="display: none;">
+                        <!-- Los elementos PDF se insertarán aquí -->
+                    </div>
+
+                    <!-- Fallback -->
+                    <div id="fallbackContent" class="fallback-content" style="display: none;">
+                        <h3>📖 Lector PDF Local</h3>
+                        <p>Tu navegador no puede mostrar el PDF directamente en esta página.</p>
+                        <br>
+                        <p><strong>Opciones disponibles:</strong></p>
+                        <br>
+                        <button class="cta-button" onclick="openPDFDirect()">
+                            🔗 Abrir el PDF en una nueva pestaña
+                        </button>
+                        <br>
+                        <button class="cta-button" onclick="downloadPDF()">
+                            ⬇️ Descargar el archivo PDF
+                        </button>
+                        <br><br>
+                        <p style="font-size: 0.9em; color: #666;">
+                            El archivo PDF se encuentra en la misma carpeta que esta página HTML.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <h2>Características</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">📖</div>
+                        <h3>Lectura fluida</h3>
+                        <p>Navegación página por página con una interfaz intuitiva</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3>Zoom adaptativo</h3>
+                        <p>Ajusta el tamaño para una lectura cómoda</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h3>Responsive</h3>
+                        <p>Compatible con todos los dispositivos</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌙</div>
+                        <h3>Acceso local</h3>
+                        <p>Funciona sin conexión a internet</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 El Noble Corán - Lectura en línea. Todos los derechos reservados.</p>
+            <p>Que la paz y las bendiciones de Allah sean contigo.</p>
+        </div>
+    </footer>
+
+    <script>
+        console.log('🚀 Lector del Corán en Español inicializado');
+
+        // Variables globales
+        let currentMethod = 'none';
+
+        // Elementos DOM
+        const loadingMessage = document.getElementById('loadingMessage');
+        const pdfDisplay = document.getElementById('pdfDisplay');
+        const fallbackContent = document.getElementById('fallbackContent');
+        const methodInfo = document.getElementById('methodInfo');
+        const pdfContainer = document.getElementById('pdfContainer');
+
+        function updateMethodInfo(message, type = 'info') {
+            if (methodInfo) {
+                methodInfo.textContent = message;
+                methodInfo.className = `method-info ${type}`;
+            }
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        function showLoading(show) {
+            if (loadingMessage) {
+                loadingMessage.style.display = show ? 'flex' : 'none';
+            }
+        }
+
+        function showPDFDisplay(show) {
+            if (pdfDisplay) {
+                pdfDisplay.style.display = show ? 'block' : 'none';
+            }
+        }
+
+        function showFallback(show) {
+            if (fallbackContent) {
+                fallbackContent.style.display = show ? 'block' : 'none';
+            }
+        }
+
+        function clearPDFDisplay() {
+            if (pdfDisplay) {
+                pdfDisplay.innerHTML = '';
+            }
+        }
+
+        async function initializeReader() {
+            console.log('🎯 Inicialización del lector local');
+            updateMethodInfo('🚀 Inicializando el lector PDF...', 'info');
+
+            // Verificar si el archivo PDF existe (aproximado)
+            const img = new Image();
+            img.onload = () => {
+                console.log('✅ Archivo PDF probablemente accesible');
+            };
+            img.onerror = () => {
+                console.log('⚠️ Imposible verificar la existencia del PDF');
+            };
+            img.src = 'quranES.pdf';
+
+            showLoading(true);
+
+            // Intentar automáticamente los métodos en orden
+            updateMethodInfo('📄 Intentando mostrar el PDF...', 'info');
+
+            // Intentar embed primero
+            setTimeout(async () => {
+                const embedWorks = await tryEmbedAuto();
+                if (embedWorks) return;
+
+                // Si embed no funciona, intentar object
+                const objectWorks = await tryObjectAuto();
+                if (objectWorks) return;
+
+                // Si object no funciona, intentar iframe
+                const iframeWorks = await tryIframeAuto();
+                if (iframeWorks) return;
+
+                // Si nada funciona, mostrar las opciones
+                showFallbackOptions();
+            }, 1000);
+        }
+
+        async function tryEmbedAuto() {
+            console.log('📄 Intento automático con embed...');
+
+            showLoading(false);
+            showFallback(false);
+            showPDFDisplay(true);
+            clearPDFDisplay();
+
+            const embed = document.createElement('embed');
+            embed.src = 'quranES.pdf';
+            embed.type = 'application/pdf';
+            embed.className = 'pdf-viewer';
+            embed.style.width = '100%';
+            embed.style.height = '80vh';
+
+            pdfDisplay.appendChild(embed);
+
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    if (embed.offsetHeight > 100) {
+                        updateMethodInfo('✅ PDF mostrado con éxito', 'success');
+                        currentMethod = 'embed';
+                        resolve(true);
+                    } else {
+                        console.log('❌ Embed no funciona');
+                        resolve(false);
+                    }
+                }, 3000);
+            });
+        }
+
+        async function tryObjectAuto() {
+            console.log('📋 Intento automático con object...');
+
+            clearPDFDisplay();
+
+            const object = document.createElement('object');
+            object.data = 'quranES.pdf';
+            object.type = 'application/pdf';
+            object.className = 'pdf-viewer';
+            object.style.width = '100%';
+            object.style.height = '80vh';
+            object.innerHTML = '<p>Cargando el PDF...</p>';
+
+            pdfDisplay.appendChild(object);
+
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    if (object.offsetHeight > 100) {
+                        updateMethodInfo('✅ PDF mostrado con éxito', 'success');
+                        currentMethod = 'object';
+                        resolve(true);
+                    } else {
+                        console.log('❌ Object no funciona');
+                        resolve(false);
+                    }
+                }, 3000);
+            });
+        }
+
+        async function tryIframeAuto() {
+            console.log('🖼️ Intento automático con iframe...');
+
+            clearPDFDisplay();
+
+            const iframe = document.createElement('iframe');
+            iframe.src = 'quranES.pdf';
+            iframe.className = 'pdf-viewer';
+            iframe.style.width = '100%';
+            iframe.style.height = '80vh';
+            iframe.style.border = 'none';
+
+            pdfDisplay.appendChild(iframe);
+
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    updateMethodInfo('✅ PDF mostrado (funcionalidades limitadas)', 'warning');
+                    currentMethod = 'iframe';
+                    resolve(true);
+                }, 2000);
+            });
+        }
+
+        function showFallbackOptions() {
+            console.log('📋 Mostrando opciones de fallback');
+            updateMethodInfo('❌ Ningún método de visualización funciona - Opciones alternativas disponibles', 'error');
+
+            showLoading(false);
+            showPDFDisplay(false);
+            showFallback(true);
+            currentMethod = 'fallback';
+        }
+
+        function openPDFDirect() {
+            console.log('🔗 Apertura directa del PDF');
+
+            // Intentar abrir el PDF en una nueva pestaña
+            const pdfWindow = window.open('quranES.pdf', '_blank');
+
+            if (pdfWindow) {
+                updateMethodInfo('✅ PDF abierto en una nueva pestaña', 'success');
+            } else {
+                updateMethodInfo('❌ Imposible abrir el PDF - ¿Popup bloqueado?', 'error');
+
+                // Fallback: crear un enlace de descarga
+                const link = document.createElement('a');
+                link.href = 'quranES.pdf';
+                link.target = '_blank';
+                link.click();
+            }
+        }
+
+        function downloadPDF() {
+            console.log('⬇️ Descarga del PDF');
+
+            const link = document.createElement('a');
+            link.href = 'quranES.pdf';
+            link.download = 'El-Noble-Coran-Espanol.pdf';
+            link.click();
+
+            updateMethodInfo('⬇️ Descarga del PDF iniciada', 'success');
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                pdfContainer.requestFullscreen().catch(err => {
+                    console.error('Error pantalla completa:', err);
+                    updateMethodInfo('❌ Imposible pasar a pantalla completa', 'error');
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📄 DOM cargado');
+
+            // Configurar los eventos
+            const startReadingBtn = document.getElementById('startReading');
+            if (startReadingBtn) {
+                startReadingBtn.onclick = () => {
+                    document.getElementById('lectura').scrollIntoView({ behavior: 'smooth' });
+                    setTimeout(initializeReader, 500);
+                };
+            }
+
+            const openPDFDirectBtn = document.getElementById('openPDFDirect');
+            if (openPDFDirectBtn) {
+                openPDFDirectBtn.onclick = openPDFDirect;
+            }
+
+            const downloadPDFBtn = document.getElementById('downloadPDF');
+            if (downloadPDFBtn) {
+                downloadPDFBtn.onclick = downloadPDF;
+            }
+
+            console.log('✅ Eventos configurados');
+
+            // Mostrar un mensaje de bienvenida
+            updateMethodInfo('📖 Listo para la lectura del Noble Corán - Haz clic en "Comenzar la lectura"', 'success');
+            showLoading(false);
+            showFallback(true);
+        });
+
+        // Manejo de errores
+        window.addEventListener('error', (e) => {
+            console.error('❌ Error:', e.error);
+        });
+
+        console.log('📖 Script de lectura local cargado');
+    </script>
+</body>
+</html>
